@@ -1,0 +1,34 @@
+.form {
+    display: flex;
+    background: #dedede;
+    width: 100%;
+    padding: 40px;
+    border-radius: 3%;
+    
+  }
+
+.form input {
+    width: 150px;
+    height: 50px;
+    border: none;
+    border-radius: 5%;
+}
+
+.form button {
+    width: 150px;
+    margin : 10px;
+    
+}
+
+.form p {
+    margin : 20px;
+    font-weight: bold;
+}
+
+.form button {
+    background-color: #00ff00;
+    color: black;
+    border-radius: 10px;
+    border: none;
+
+}

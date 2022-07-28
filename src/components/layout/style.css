@@ -1,0 +1,9 @@
+.layout {
+    display: block;
+    width: 1200px;
+    height: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    overflow: auto;
+
+}
