@@ -1,58 +1,83 @@
-import {useState} from 'react'
-import './style.css'
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import styled from "styled-components";
+import { addTodo } from "../../redux/modules/todos";
+//import './style.css'
 
+function Form() {
+  const [titleVal, setTitleVal] = useState("");
+  const [contVal, setContVal] = useState("");
 
-function Form(props) {
-    let [titleVal, setTitleVal] = useState('');
-    let [contVal, setContVal] = useState('');
+  const dispatch = useDispatch();
 
-    let [id, setId] = useState(0);
+  const onReset = () => {
+    setTitleVal("");
+    setContVal("");
+  };
 
-    const onReset = () => {
-        setTitleVal('');
-        setContVal('');
-    }
+  const onSubmitTodos = (e) => {
+    if ((titleVal === "") & (contVal === "")) return;
+    dispatch(addTodo(titleVal, contVal));
+    onReset();
+  };
 
   return (
     <>
-      <div className="form" id="form">
-        <p>제목</p>
-        <input
+      <StForm id="form">
+        <StP>제목</StP>
+        <StInput
           onChange={(e) => {
             setTitleVal(e.target.value);
-          }} value={titleVal}
+          }}
+          value={titleVal}
         />
-        <p>내용</p>
-        <input
+        <StP>내용</StP>
+        <StInput
           onChange={(e) => {
             setContVal(e.target.value);
-          }} value={contVal}
+          }}
+          value={contVal}
         />
-        <button
+        <StSubmit
           onClick={() => {
-            let copy = [...props.todo];
-            setId(id+1)
-            copy.push(
-              {
-                id: id,
-                title: titleVal,
-                body: contVal,
-                isDone: false,
-              }
-            );
-
-            props.setTodo(copy)
-
-            onReset()
-
-            
-          }} id="submitBtn"
+            onSubmitTodos();
+          }}
+          id="submitBtn"
         >
-          Post
-        </button>
-      </div>
+          글올리랑께
+        </StSubmit>
+      </StForm>
     </>
   );
 }
+
+const StForm = styled.div`
+  display: flex;
+  background: #dedede;
+  width: 100%;
+  padding: 40px;
+  border-radius: 3%;
+`;
+
+const StInput = styled.input`
+  width: 150px;
+  height: 50px;
+  border: none;
+  border-radius: 5%;
+`;
+
+const StSubmit = styled.button`
+  width: 150px;
+  margin: 10px;
+  background-color: #00ff00;
+  color: black;
+  border-radius: 10px;
+  border: none;
+`;
+
+const StP = styled.p`
+  margin: 20px;
+  font-weight: bold;
+`;
 
 export default Form;

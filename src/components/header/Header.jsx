@@ -1,13 +1,24 @@
-import './style.css'
+import styled from 'styled-components'
+
 
 function Header(){
     return (
-        <div className="black-nav" style={{display:"flex", justifyContent: "space-between"}} >
-            <h1 style={{ color: "red" }}>My Todo List</h1>
+        <StHead className="black-nav" style={{display:"flex", justifyContent: "space-between"}} >
+            <h1 style={{ color: "red" }}>할일목록</h1>
             <h2 style={{ color : "yellow", margin : "20px"}}>React</h2>       
-        </div>
+        </StHead>
     )
 
 }
 
+const StHead = styled.div`
+    display: flex;
+    background: black;
+    width: 100%;
+    color: #fff;
+    padding-left: 20px;
+  
+`
+
 export default Header
+

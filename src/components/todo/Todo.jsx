@@ -1,79 +1,76 @@
-import './style.css'
+import { useDispatch } from "react-redux";
+import { deleteTodo, toggleStatusTodo } from '../../redux/modules/todos';
+import { Link } from 'react-router-dom';
+import styled from "styled-components"
 
-function WorkingBox(props){
-   
-    if(props.todo[props.i].isDone == false){
-    return (
-      <div id={props.i} className="todoCard">
-      <h2>{props.todo[props.i].title}</h2>
-      <p>{props.todo[props.i].body}</p>
-     
-    <DeleteBtn todo={props.todo} i={props.i} setTodo={props.setTodo}></DeleteBtn>
-    
-      
-      <button
-        onClick={() => {
-            let copy = [...props.todo];
-            copy[props.i].isDone = true;
-            props.setTodo(copy);
-            console.log(copy.isDone)
-        }} id="doneBtn"
-      >Done</button>
-      </div>
-    )} else {
-        return null;
-    }
+function WorkingBox({todo}){  
+  const dispatch = useDispatch();
+
+  const onDeleteTodo = (id) => {
+   dispatch(deleteTodo(id))
   }
 
-  function DoneBox(props){
-    
-    if(props.todo[props.i].isDone == true){
-    return (
-      <div id={props.i} className="todoCard" style={{border:"3px solid orange"}}>
-      <h2>{props.todo[props.i].title}</h2>
-      <p>{props.todo[props.i].body}</p>
-     
-    <DeleteBtn todo={props.todo} i={props.i} setTodo={props.setTodo}></DeleteBtn>
-    
-      
-      <button
-        onClick={() => {
-            let copy = [...props.todo];
-            copy[props.i].isDone = false;
-            props.setTodo(copy);
-            console.log(copy.isDone)
-        }} id="doneBtn" style={{border:"2px solid green"}}
-      >Cancel</button>
-      </div>
-    )} else {
-        return null;
-    }
+  const onToggleTodo = (id) => {
+    dispatch(toggleStatusTodo(id))
   }
-
-  function DeleteBtn (props){
+  
     return (
-    <>
-    <button onClick={() => {
-        console.log(props.todo[props.i])
-        let copy = [...props.todo];
-        copy.splice(props.i,1);
-        props.setTodo(copy)
-        console.log(props.i)
-        }} id="doneBtn" style={{border:"2px solid red"}}>Delete</button>
-    </>
+      <StTodoBox key={todo.id}>
+       <StP><Link to={`/detail/${todo.id}`}>더보기</Link></StP>
+      <StH2>{todo.title}</StH2>
+      <StP>{todo.body}</StP>
+      <StDelBtn onClick={() => onDeleteTodo(todo.id)}>삭제할겨?</StDelBtn>
+      <StDoneBtn onClick={() => onToggleTodo(todo.id)}>
+      
+      {todo.isDone? "덜끝내소": "끝났소"}
+        
+      </StDoneBtn>
+     
+     
+      </StTodoBox>
     )
   }
 
-  export {WorkingBox, DoneBox}
+const StTodoBox = styled.div`
+    width: 300px;
+    height: 250px;
+    border: 3px solid green;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px;
+    
+`;
+
+const StDoneBtn = styled.button`
+    width: 70px;
+    height: 30px;
+    background: blue;
+    color: white;
+    margin: 10px;
+    border-radius: 10px;
+    border : none;
+`;
+
+const StDelBtn = styled.button`
+    width: 70px;
+    height: 30px;
+    background: red;
+    color: white;
+    margin: 10px;
+    border-radius: 10px;
+    border: none;
+`
+
+const StH2 = styled.h2`
+  text-align: left;
+`
+
+const StP = styled.p`
+  text-align: left;
+`
 
 
-//   {
-//     let copy = [...props.todo];
-          
-//     setTodo(copy);
-//   }
 
-// {
-//     let copy = [...props.todo];
-//     copy.splice(props.i,1);
-// }
+  export default WorkingBox
+
+

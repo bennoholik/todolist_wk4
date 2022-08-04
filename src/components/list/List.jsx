@@ -1,54 +1,60 @@
-import {WorkingBox, DoneBox} from "../todo/Todo";
-import './style.css'
+import { useSelector } from "react-redux";
+import styled from "styled-components";
+import WorkingBox from "../todo/Todo";
 
-function List(props){
+
+function List(){
+
+    const todos = useSelector((state) => state.todos.todos);
+    console.log(todos)
 
     return (
         <>
             <div>
-                <h2>Working On..🔥</h2>
-                <Working todo={props.todo} setTodo={props.setTodo}></Working>
-            </div>
-            <div>
-                <h2>Done..🎉</h2>
-                <Done todo={props.todo} setTodo={props.setTodo}></Done>
+                <StH2>하는중이올시다</StH2>
+                <StCards>
+                { 
+                    todos.map((todo) => {
+                        if(!todo.isDone){
+                            return <WorkingBox todo={todo}></WorkingBox>
+                        } else {
+                            return null;
+                        }
+                    })
+                }
+                </StCards>
+
+                <StH2>끝났수다</StH2>
+                <StCards>
+                {
+                    todos.map((todo) => {
+                        if(todo.isDone){
+                            return <WorkingBox todo={todo}></WorkingBox>
+                        } else {
+                            return null;
+                        }
+                    })
+                }
+                </StCards>
             </div>
         </>
 
     )
 }
 
-function Working(props){
-    return (
-        <>
-            <div id="cards">
-                {props.todo.map((t, i) => {
-                return (
-                    <WorkingBox todo={props.todo} setTodo={props.setTodo} i={i}></WorkingBox>
-                   
-                );
-            })}
-            </div>
-       
-        </>
-    )
-}
 
-function Done(props){
-    return (
-        <>
-            <div id="cards">
-                {props.todo.map((t, i) => {
-                return (
-                    <DoneBox todo={props.todo} setTodo={props.setTodo} i={i}></DoneBox>
-                   
-                );
-            })}
-            </div>
-       
-        </>
-    )
-}
+const StH2 = styled.h2`
+    text-align: left;
+    margin-left: 20px;
+`
+
+const StCards = styled.div`
+    display: flex;
+    flex-direction: column;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: left;
+`
 
 
 export default List
